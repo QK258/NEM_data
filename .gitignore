@@ -2,47 +2,13 @@
 __pycache__/
 *.py[cod]
 *.so
-.env
-.venv/
-.envrc
-*.egg-info/
-
-# === Conda and virtual environments ===
-.mcvic/
-mc_vic/
-env/
-*.conda
-*.lock
 
 # === IDEs and system files ===
 .vscode/
-*.code-workspace
-Thumbs.db
 .DS_Store
 
-# === Jupyter Notebooks ===
-.ipynb_checkpoints/
-
-# === Streamlit cache ===
-.streamlit/
-.cache/
-
-# === Output and large files ===
-*.log
-*.bak
-*.swp
-*.parquet
-*.arrow
-*.h5
-*.zip
-*.csv
-
-# === Project data folders ===
+# === Project-specific folders ===
 data/TradingIS_zips/
 data/TradingIS_csvs/
-data/TradingIS_zips_archive/
 data/filtered_price_data/
 data/tracker.duckdb
-
-# === Documentation outputs (if not needed) ===
-documentation/historic/
