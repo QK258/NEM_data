@@ -51,3 +51,5 @@ elif agg_option == "Seasonal":
 st.subheader(f"{agg_option} RRP in {selected_region}")
 fig = px.line(filtered, x=filtered.index if agg_option != "5-minute" else "SETTLEMENTDATE", y="RRP")
 st.plotly_chart(fig, use_container_width=True)
+
+#streamlit run "C:/Users/user/Google Drive/Projects/Electricity Prices/scripts/Price Dashboard.py"
