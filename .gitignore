@@ -1,46 +1,48 @@
-# === Python ===
+# === Python cache and environment ===
 __pycache__/
 *.py[cod]
 *.so
-*.ipynb_checkpoints
-
-# === Environment ===
-env/
+.env
 .venv/
-.mcvic/
-*.env
-*.DS_Store
-*.log
-*.bak
-*.swp
+.envrc
+*.egg-info/
 
-# === Conda environment files ===
+# === Conda and virtual environments ===
+.mcvic/
+mc_vic/
+env/
 *.conda
 *.lock
 
-# === Jupyter Notebooks (optional cache folders) ===
-.ipynb_checkpoints/
-profile_default/
-*.nbconvert.ipynb
-
-# === Parquet and large data ===
-*.parquet
-*.arrow
-*.h5
-*.csv
-*.zip
-data/TradingIS_csvs/
-data/TradingIS_zips/
-data/filtered_price_data/
-data/tracker.duckdb
-
-# === VS Code and system files ===
+# === IDEs and system files ===
 .vscode/
 *.code-workspace
 Thumbs.db
-Desktop.ini
+.DS_Store
+
+# === Jupyter Notebooks ===
+.ipynb_checkpoints/
 
 # === Streamlit cache ===
 .streamlit/
-__pycache__/
 .cache/
+
+# === Output and large files ===
+*.log
+*.bak
+*.swp
+*.parquet
+*.arrow
+*.h5
+*.zip
+*.csv
+
+# === Project data folders ===
+data/TradingIS_zips/
+data/TradingIS_csvs/
+data/TradingIS_zips_archive/
+data/filtered_price_data/
+data/tracker.duckdb
+
+# === Documentation outputs (if not needed) ===
+documentation/historic/
