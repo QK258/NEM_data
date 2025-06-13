@@ -1,46 +1,40 @@
-# === Python ===
+# === Python cache and environment ===
+# Python
 __pycache__/
 *.py[cod]
-*.so
-*.ipynb_checkpoints
-
-# === Environment ===
-env/
-.venv/
-.mcvic/
+*.egg
+*.egg-info/
 *.env
-*.DS_Store
+.env*
+*.sqlite3
+
+# Jupyter
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and dumps
 *.log
+*.tmp
 *.bak
-*.swp
 
-# === Conda environment files ===
-*.conda
-*.lock
+# Streamlit
+.streamlit/config.toml
 
-# === Jupyter Notebooks (optional cache folders) ===
-.ipynb_checkpoints/
-profile_default/
-*.nbconvert.ipynb
-
-# === Parquet and large data ===
-*.parquet
-*.arrow
-*.h5
-*.csv
-*.zip
-data/TradingIS_csvs/
-data/TradingIS_zips/
-data/filtered_price_data/
+# DuckDB database
 data/tracker.duckdb
 
-# === VS Code and system files ===
-.vscode/
-*.code-workspace
-Thumbs.db
-Desktop.ini
+# Data folders (you don't want Parquet, CSV, or ZIPs in Git)
+data/filtered_price_data/
+data/TradingIS_csvs/
+data/TradingIS_zips/
+data/TradingIS_zips_archive/
 
-# === Streamlit cache ===
-.streamlit/
-__pycache__/
-.cache/
+# Optional: any test or scratch files
+scratch/
+tmp/
