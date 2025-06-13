@@ -20,7 +20,6 @@ df["SETTLEMENTDATE"] = pd.to_datetime(
     format="%Y/%m/%d %H:%M:%S",
     errors="coerce"
 )
-# Ensure SETTLEMENTDATE is in datetime format
 
 # Sidebar filters
 regions = df["REGIONID"].unique().tolist()
@@ -28,28 +27,45 @@ selected_region = st.sidebar.selectbox("Region", regions)
 start_date = st.sidebar.date_input("Start date", df["SETTLEMENTDATE"].min().date())
 end_date = st.sidebar.date_input("End date", df["SETTLEMENTDATE"].max().date())
 
-# Filter data
+# Filter
 filtered = df[
     (df["REGIONID"] == selected_region) &
     (df["SETTLEMENTDATE"].dt.date >= start_date) &
     (df["SETTLEMENTDATE"].dt.date <= end_date)
-]
+].copy()
 
-# Aggregation level
+# Aggregation options
 agg_option = st.sidebar.selectbox("Aggregation", ["5-minute", "Daily", "Weekly", "Monthly", "Seasonal"])
+
 if agg_option == "Daily":
-    filtered = filtered.resample("D", on="SETTLEMENTDATE").mean()
+    filtered = filtered.resample("D", on="SETTLEMENTDATE").mean(numeric_only=True).reset_index()
 elif agg_option == "Weekly":
-    filtered = filtered.resample("W", on="SETTLEMENTDATE").mean()
+    filtered = filtered.resample("W", on="SETTLEMENTDATE").mean(numeric_only=True).reset_index()
 elif agg_option == "Monthly":
-    filtered = filtered.resample("M", on="SETTLEMENTDATE").mean()
+    filtered = filtered.resample("M", on="SETTLEMENTDATE").mean(numeric_only=True).reset_index()
 elif agg_option == "Seasonal":
     filtered["month"] = filtered["SETTLEMENTDATE"].dt.month
-    filtered = filtered.groupby("month").mean()
+    seasonal_avg = filtered.groupby("month")["RRP"].mean().reset_index()
+    st.subheader(f"Average RRP by Month in {selected_region}")
+    fig = px.bar(seasonal_avg, x="month", y="RRP", labels={"RRP": "Price ($/MWh)", "month": "Month"})
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    # 5-minute (no resampling)
+    pass
 
-# Plot
-st.subheader(f"{agg_option} RRP in {selected_region}")
-fig = px.line(filtered, x=filtered.index if agg_option != "5-minute" else "SETTLEMENTDATE", y="RRP")
-st.plotly_chart(fig, use_container_width=True)
+# Scatter plot for time-based aggregations
+if agg_option != "Seasonal":
+    if filtered.empty:
+        st.warning("No data available for the selected region and date range.")
+    else:
+        st.subheader(f"{agg_option} RRP in {selected_region}")
+        fig = px.scatter(filtered, x="SETTLEMENTDATE", y="RRP",
+                         title=f"{agg_option} Spot Prices",
+                         labels={"RRP": "Price ($/MWh)"},
+                         opacity=0.7)
+        fig.update_traces(marker=dict(size=4))
+        fig.update_layout(height=500)
+        st.plotly_chart(fig, use_container_width=True)
 
-#streamlit run "C:/Users/user/Google Drive/Projects/Electricity Prices/scripts/Price Dashboard.py"
+
+#streamlit run "C:/Users/user/Google Drive/Projects/Electricity Prices/scripts/price_dashboard.py"
