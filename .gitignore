@@ -22,6 +22,7 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
+logs/*.txt
 
 # Streamlit
 .streamlit/config.toml
@@ -38,3 +39,4 @@ data/TradingIS_zips_archive/
 # Optional: any test or scratch files
 scratch/
 tmp/
+

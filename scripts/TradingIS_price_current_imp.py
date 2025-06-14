@@ -6,6 +6,10 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import duckdb
 from bs4 import BeautifulSoup
+from datetime import datetime
+
+print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Starting update...")
+
 
 # --- Paths and URLs ---
 BASE_DIR = r"C:\Users\user\Google Drive\Projects\Electricity Prices\data"
@@ -36,7 +40,7 @@ con.execute("CREATE TABLE IF NOT EXISTS processed_files (filename TEXT PRIMARY K
 existing_files = set(x[0] for x in con.execute("SELECT filename FROM processed_files").fetchall())
 
 # --- Get list of ZIP links ---
-print("🔍 Scraping zip links...")
+print("Scraping zip links...")
 soup = BeautifulSoup(requests.get(URL, headers=HEADERS).text, "html.parser")
 zip_links = [a['href'] for a in soup.find_all("a", href=True) if a['href'].endswith(".zip")]
 
@@ -44,18 +48,18 @@ zip_links = [a['href'] for a in soup.find_all("a", href=True) if a['href'].endsw
 for link in zip_links:
     filename = link.split("/")[-1]
     if filename in existing_files:
-        print(f"✅ Skipping {filename}, already processed.")
+        print(f"Skipping {filename}, already processed.")
         continue
 
     zip_path = os.path.join(ZIP_DIR, filename)
     if not os.path.exists(zip_path):
-        print(f"⬇️ Downloading {filename}")
+        print(f"Downloading {filename}")
         try:
             r = requests.get(URL + filename, headers=HEADERS)
             with open(zip_path, "wb") as f:
                 f.write(r.content)
         except Exception as e:
-            print(f"❌ Download failed: {e}")
+            print(f"Download failed: {e}")
             continue
 
     # Extract ZIP
@@ -66,7 +70,7 @@ for link in zip_links:
                 if not os.path.exists(csv_path):
                     zf.extract(member, CSV_DIR)
 
-                print(f"📄 Processing {member}")
+                print(f"Processing {member}")
                 price_rows = []
                 with open(csv_path, 'r', encoding='utf-8') as file:
                     for line in file:
@@ -74,7 +78,7 @@ for link in zip_links:
                             price_rows.append(line.strip().split(','))
 
                 if not price_rows:
-                    print(f"ℹ️ No PRICE data in {member}")
+                    print(f"No PRICE data in {member}")
                     continue
 
                 # Convert to DataFrame
@@ -88,7 +92,7 @@ for link in zip_links:
                         format="%Y/%m/%d %H:%M:%S"
                     ).dt.date.astype(str)
                 except Exception as e:
-                    print(f"⚠️ Date parse error: {e}")
+                    print(f"Date parse error: {e}")
                     continue
 
                 # Save as partitioned parquet
@@ -96,11 +100,11 @@ for link in zip_links:
                 pq.write_to_dataset(table, root_path=PARQUET_DIR, partition_cols=["trading_date"])
 
     except Exception as e:
-        print(f"❌ Failed to process {filename}: {e}")
+        print(f"Failed to process {filename}: {e}")
         continue
 
     # Mark as processed
     con.execute("INSERT OR IGNORE INTO processed_files VALUES (?)", [filename])
-    print(f"📌 Added {filename} to tracker")
+    print(f"Added {filename} to tracker")
 
-print("✅ Done.")
+print("Done.")
