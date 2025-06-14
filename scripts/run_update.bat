@@ -1,4 +1,4 @@
-
+REM Updating prices
 @echo off
 
 REM Ensure working directory
