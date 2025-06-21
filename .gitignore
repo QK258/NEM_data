@@ -23,12 +23,14 @@ Thumbs.db
 *.tmp
 *.bak
 logs/*.txt
+debug.py
 
 # Streamlit
 .streamlit/config.toml
 
-# DuckDB database
-data/tracker.duckdb
+# Include generation
+!data/Generators April.xlsx
+# === Project specific files ===
 
 # Data folders (don't want Parquet, CSV, or ZIPs in Git)
 data/
