@@ -16,7 +16,7 @@ BASE_DIR = r"C:\Users\user\Google Drive\Projects\Electricity Prices\data"
 ZIP_DIR = os.path.join(BASE_DIR, "TradingIS_zips")
 CSV_DIR = os.path.join(BASE_DIR, "TradingIS_csvs")
 PARQUET_DIR = os.path.join(BASE_DIR, "filtered_price_data")
-DB_PATH = os.path.join(BASE_DIR, "tracker.duckdb")
+DB_PATH = os.path.join(BASE_DIR, "price_tracker.duckdb")
 URL = "https://nemweb.com.au/Reports/CURRENT/TradingIS_Reports/"
 HEADERS = {'User-Agent': 'Mozilla/5.0'}
 

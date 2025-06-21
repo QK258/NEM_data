@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
-st.title("NEM 5-Minute Dispatch Price")
+st.title("Electricity Price")
 
 # Load Parquet via DuckDB
 @st.cache_data
@@ -75,7 +75,7 @@ else:
             hovertemplate="<b>Time:</b> %{x}<br><b>Price:</b> %{y:,.2f} $/MWh<extra></extra>"
         ))
         fig.update_layout(
-            title=f"{agg_option} Aggregation of 5-min RRP in {selected_region}",
+            title=f"{agg_option} aggregation of RRP in {selected_region} from {start_date} to {end_date}",
             xaxis_title="Time",
             yaxis_title="Price ($/MWh)",
             height=500
@@ -97,4 +97,4 @@ if not filtered.empty and "RRP" in filtered.columns:
 
 
 
-#streamlit run "C:/Users/user/Google Drive/Projects/Electricity Prices/scripts/price_dashboard.py"
+#streamlit run "C:/Users/user/Google Drive/Projects/Electricity Prices/price_dashboard.py"
