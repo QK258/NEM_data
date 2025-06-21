@@ -30,13 +30,9 @@ logs/*.txt
 # DuckDB database
 data/tracker.duckdb
 
-# Data folders (you don't want Parquet, CSV, or ZIPs in Git)
-data/TradingIS_csvs/
-data/TradingIS_zips/
-data/TradingIS_zips_archive/
+# Data folders (don't want Parquet, CSV, or ZIPs in Git)
+data/
 
-# Allow recent cleaned data
-!data/filtered_price_data/**
 
 # Optional: any test or scratch files
 scratch/
