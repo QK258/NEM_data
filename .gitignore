@@ -28,13 +28,15 @@ debug.py
 # Streamlit
 .streamlit/config.toml
 
-# Include generation
-!data/Generators April.xlsx
+
 # === Project specific files ===
 
 # Data folders (don't want Parquet, CSV, or ZIPs in Git)
 data/
-
+documentation/
+scripts/archive/
+scripts/test/
+reports/
 
 # Optional: any test or scratch files
 scratch/
