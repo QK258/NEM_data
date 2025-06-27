@@ -9,7 +9,8 @@ st.title("Electricity Price Dashboard")
 @st.cache_data
 def load_data():
     con = duckdb.connect()
-    query = "SELECT * FROM parquet_scan('data/monthly_price_data/**/*.parquet', union_by_name=True)"
+    query = "SELECT REGIONID, SETTLEMENTDATE, RRP FROM parquet_scan('data/regional_RRP_data/**/*.parquet', union_by_name=True) " 
+    "WHERE SETTLEMENTDATE >= '2025-06-10' AND SETTLEMENTDATE < '2025-06-11' AND REGIONID IS 'NSW1'"
     return con.execute(query).fetchdf()
 
 df = load_data()
@@ -26,8 +27,7 @@ end_date = st.sidebar.date_input("End date", max_date.date())
 
 agg_option = st.sidebar.selectbox("Aggregation", ["5-minute", "Daily", "Weekly", "Monthly", "Seasonal"])
 price_column = st.sidebar.selectbox("Price Type", [
-    "RRP", "RAISE6SECRRP", "LOWER6SECRRP", "RAISE60SECRRP", "LOWER60SECRRP",
-    "RAISE5MINRRP", "LOWER5MINRRP", "RAISEREGRRP", "LOWERREGRRP", "RAISE1SECRRP", "LOWER1SECRRP"
+    "RRP"
 ])
 
 # --- Filter ---
