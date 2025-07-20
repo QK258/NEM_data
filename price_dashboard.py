@@ -26,9 +26,9 @@ def load_data():
         query = f"""
         SELECT REGIONID, SETTLEMENTDATE, RRP 
         FROM read_parquet('{DATA_PATH}/**/*.parquet') 
-        WHERE SETTLEMENTDATE >= '2024-01-01' 
-        AND SETTLEMENTDATE < '2024-07-01' 
-        AND REGIONID = 'QLD1'
+        WHERE SETTLEMENTDATE >= '2025-07-01' 
+        --AND SETTLEMENTDATE < '2025-07-01' 
+        AND REGIONID = 'VIC1'
         ORDER BY SETTLEMENTDATE
         """
         
@@ -36,7 +36,7 @@ def load_data():
         con.close()
         
         if df.empty:
-            st.warning("No data found for VIC1 in May 2025. Check your data path and date range.")
+            st.warning("No data found. Check your data path and date range.")
             return pd.DataFrame()
             
         return df
@@ -151,7 +151,7 @@ if agg_option == "5-minute":
     fig.add_trace(go.Scatter(
         x=filtered["SETTLEMENTDATE"], 
         y=filtered[price_column], 
-        name=f"VIC1 {price_column}",
+        name=f"{price_column}",
         mode="lines",
         line=dict(width=0.8),
         hovertemplate="<b>%{y:$,.2f}/MWh</b><br>%{x|%H:%M %d/%m/%Y}<extra></extra>"
@@ -181,7 +181,7 @@ else:
     fig.add_trace(go.Scatter(
         x=aggregated["SETTLEMENTDATE"], 
         y=aggregated["mean_price"], 
-        name=f"VIC1 {agg_option} Average",
+        name=f"{agg_option} Average",
         mode="lines+markers",
         line=dict(width=2, color='blue'),
         marker=dict(size=4),
@@ -237,7 +237,7 @@ csv = download_df.to_csv(index=False).encode("utf-8")
 st.download_button(
     label=f"📥 Download {agg_option} Data as CSV",
     data=csv,
-    file_name=f"vic1_prices_{agg_option.lower()}_{start_date}_{end_date}.csv",
+    file_name=f"prices_{agg_option.lower()}_{start_date}_{end_date}.csv",
     mime="text/csv"
 )
 

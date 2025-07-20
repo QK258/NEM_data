@@ -1,6 +1,6 @@
 """
 ================================================================================
-BATTERY ARBITRAGE REVENUE ANALYSIS - MAY 2025
+BATTERY ARBITRAGE REVENUE ANALYSIS 
 ================================================================================
 
 PURPOSE:
@@ -43,7 +43,7 @@ print("=" * 60)
 # ============================================================================
 # CONFIGURATION PARAMETERS
 # ============================================================================
-REGION = 'NSW1'        # Australian NEM region (VIC1, NSW1, QLD1, SA1, TAS1)
+REGION = 'VIC1'        # Australian NEM region (VIC1, NSW1, QLD1, SA1, TAS1)
 BATTERY_MWH = 10       # Battery energy capacity in MegaWatt hours
 EFFICIENCY = 0.85      # Round-trip efficiency: energy out / energy in
                        # Typical range: 0.80-0.95 for modern batteries
